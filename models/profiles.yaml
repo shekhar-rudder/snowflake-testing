@@ -1,0 +1,27 @@
+var_groups:
+  - name: user_vars
+    entity_key: user
+    vars:
+      - entity_var:
+          name: max_timestamp_tracks
+          select: max(timestamp)
+          from: inputs/rsTracks
+          is_feature: false
+      - entity_var:
+          name: max_timestamp_pages
+          select: max(timestamp)
+          from: inputs/rsPages
+          description: The total value of products that are part of the last transaction.
+          is_feature: false
+      - entity_var:
+          name: max_timestamp_bw_tracks_pages
+          select: CASE WHEN {{user.Var("max_timestamp_tracks")}}>={{user.Var("max_timestamp_pages")}} THEN {{user.Var("max_timestamp_tracks")}} ELSE {{user.Var("max_timestamp_pages")}} END
+          is_feature: false
+      - entity_var:
+          name: days_since_last_seen
+          select: "{{macro_datediff('{{user.Var(\"max_timestamp_bw_tracks_pages\")}}')}}"
+          default: 0
+      - entity_var:
+          name: is_churned_7_days
+          select: case when {{user.Var("days_since_last_seen")}} > 7 then 1 else 0 end
+          description: it specifies if there is any activity observed in the last n days. It is dependent on days_since_last_seen    
