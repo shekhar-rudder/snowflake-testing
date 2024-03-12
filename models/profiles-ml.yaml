@@ -12,7 +12,7 @@ models:
         file_extension: .json
         file_validity: 168h # If the last trained model is older than this, then the model will be trained again,
         inputs: &inputs
-          - models/days_since_last_seen
+          - entity/user/days_since_last_seen
         config:
           data: &model_data_configs
             label_column: is_churned_7_days # Name of column for which we want to find predictions
@@ -32,7 +32,7 @@ models:
 
       predict:
         inputs:
-          - models/days_since_last_seen
+          - entity/user/days_since_last_seen
         config:
           data: *model_data_configs # Use the same config as training
           preprocessing: *model_prep_configs # Use the same config as training
