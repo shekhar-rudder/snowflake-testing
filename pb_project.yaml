@@ -1,0 +1,29 @@
+name: shopify_features
+schema_version: 53
+connection: test
+include_untimed: true
+model_folders:
+  - models
+# Entities in this project and their ids.
+entities:
+  - name: user
+    id_types:
+      - user_id
+      - anonymous_id
+      - email
+id_types:
+  - name: user_id
+  - name: anonymous_id
+    filters:
+      - type: exclude
+        value: ""
+      - type: exclude
+        value: "unknown"
+      - type: exclude
+        value: "NaN"
+  - name: email
+    filters:
+      - type: include
+        regex: ".+@.+"
+      - type: exclude
+        value: "test@company.com"
