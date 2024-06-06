@@ -11,6 +11,10 @@ entities:
       - user_id
       - anonymous_id
       - email
+    feature_views:
+      using_ids:
+        - id: user_id
+          name: with_user_id
 id_types:
   - name: user_id
   - name: anonymous_id
